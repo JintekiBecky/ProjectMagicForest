@@ -61,9 +61,9 @@ public class PlayerCtrl : MonoBehaviour
             {
 			    if (Input.GetKey(KeyCode.JoystickButton4))
 			    {
-				    playerSpeed = sprintSpeed;
-				    currentStamina -= staminaConsumption;
-				    Debug.Log(currentStamina);
+                    playerSpeed = sprintSpeed;
+                    currentStamina -= staminaConsumption;
+                    Debug.Log(currentStamina);
 			    }
 		    }
 
