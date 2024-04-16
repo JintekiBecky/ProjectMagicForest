@@ -24,8 +24,19 @@ public class PlayerCtrl : MonoBehaviour
     public Image bar;
     public GameObject sweat;
 
-    // Start is called before the first frame update
-    void Start()
+    [Header("Inventory")]
+    private S_Inventory inventory;
+    [SerializeField] private S_UI_Inventory UIinventory;
+
+	private void Awake()
+	{
+        inventory = new S_Inventory();
+        UIinventory.SetInventory(inventory);
+
+	}
+
+	// Start is called before the first frame update
+	void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         sprintSpeed = playerSpeed * 2f;
@@ -34,21 +45,23 @@ public class PlayerCtrl : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
-        movement.x = Input.GetAxisRaw("Horizontal");
-        movement.y = Input.GetAxisRaw("Vertical");
+	{
+		movement.x = Input.GetAxisRaw("Horizontal");
+		movement.y = Input.GetAxisRaw("Vertical");
 
-        animator.SetFloat("Horizontal", movement.x);
-        animator.SetFloat("Vertical", movement.y);
-        animator.SetFloat("Speed", movement.magnitude);
+		animator.SetFloat("Horizontal", movement.x);
+		animator.SetFloat("Vertical", movement.y);
+		animator.SetFloat("Speed", movement.magnitude);
 
-        Sprint();
+		Sprint();
 		SetHealthBar();
-        sprintBarRefill();
-        PassiveRecovery();
+		sprintBarRefill();
+		PassiveRecovery();
+
+		Hacks();
 	}
 
-    private void FixedUpdate()
+	private void FixedUpdate()
     {
         rb.MovePosition(rb.position + movement * playerSpeed * Time.fixedDeltaTime);
     }
@@ -127,4 +140,13 @@ public class PlayerCtrl : MonoBehaviour
 			}
         }
     }
+
+	private static void Hacks()
+	{
+		if (Input.GetKeyDown(KeyCode.Alpha0))
+		{
+            //this line below will spawn and item of type "name of item in s_item" at a postion you want to set. Good for spawning after killing or completing something.
+			S_ItemWorld.SpawnItemWorld(new Vector3(3, 0), new S_Item { itemtype = S_Item.ItemType.Mushroom1, amount = 1 });
+		}
+	}
 }
